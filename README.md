@@ -157,6 +157,7 @@ Sidebar options:
 ├── rag.py            # memory, search, routing and answering
 ├── config.py         # settings and model names
 ├── inspect_db.py     # command-line tool to view stored data
+├── view_chroma.py    # visual & searchable viewer/exporter for Chroma chunks
 ├── requirements.txt  # list of Python packages
 ├── .env.example      # template for your secret settings
 ├── .gitignore        # files Git should never upload
@@ -216,6 +217,20 @@ A [Streamlit](https://streamlit.io) page with three parts: the **sidebar** (note
 python inspect_db.py                              # list notebooks and files
 python inspect_db.py my_notebook file.pdf         # print and save all extracted text
 python inspect_db.py my_notebook file.pdf 5       # only page 5
+```
+
+### `view_chroma.py`: browse, search and export all chunks
+A standalone viewer for inspecting everything stored in `data/chroma` (without opening Streamlit):
+- **Summary + Excel & browser export (default):** prints a summary table of chunks and types per file, exports all chunks to `chroma_export.csv` (for Excel), and builds a searchable `chroma_export.html` card page (`write_html()`) that opens automatically in your browser.
+- **Filter by file or page (`--file`, `--page`):** prints matching chunks right in your terminal.
+- **Test semantic search (`--search`):** queries ChromaDB directly and prints the top 5 matches per notebook.
+- **Limit to one notebook or custom DB path (`--notebook`, `--path`):** narrows results to a single notebook or reads from another Chroma folder.
+
+```bash
+python view_chroma.py                                     # summary + export CSV & open HTML viewer
+python view_chroma.py --file CPVC-Catalogue.pdf --page 5  # print chunks from page 5
+python view_chroma.py --search "reducing bush sizes"      # test vector search results
+python view_chroma.py --notebook my_notebook              # limit to one notebook
 ```
 
 ### Chunk types you'll see
